@@ -1,0 +1,7 @@
+{
+  "name": "WhisperGrid",
+  "description": "Speak the vibe. Find the video. Multimodal retrieval app using Gemini Embedding 2.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
