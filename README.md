@@ -57,7 +57,7 @@ const cosineSimilarity = (a: number[], b: number[]) => {
 ### Steps
 1.  **Clone the repo**:
     ```bash
-    git clone https://github.com/your-username/whispergrid.git
+    git clone https://github.com/harishkotra/whispergrid.git
     cd whispergrid
     ```
 2.  **Install dependencies**:
@@ -86,7 +86,4 @@ We welcome contributions! Here are some ideas for features you could add:
 
 ## 📜 Credits
 - Videos sourced from [Pexels](https://www.pexels.com).
-- Powered by [Gemini Embeddings 2](https://ai.google.dev/gemini-api/docs/models/gemini#embedding).
-
----
-Built with ❤️ using Google AI Studio.
+- Powered by [Gemini Embeddings 2](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-embedding-2/).
