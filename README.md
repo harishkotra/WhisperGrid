@@ -4,9 +4,13 @@
 
 WhisperGrid is a cutting-edge multimodal retrieval application that allows users to search through a video library using nothing but sound. Powered by the **Gemini Embedding 2** model, it translates audio inputs (speech, humming, or ambient sounds) into semantic vectors and matches them against a pre-embedded video library in real-time.
 
+Video Demonstration: [https://youtu.be/jqNQZZuvfuI](https://youtu.be/jqNQZZuvfuI)
+
+### Screenshots
 
 
-## ✨ Features
+
+## Features
 
 - **Semantic Audio Search**: Search by describing a scene, humming a tune, or making a sound.
 - **Real-time Matching**: Instantaneous cosine similarity calculation between audio and video embeddings.
@@ -18,7 +22,7 @@ WhisperGrid is a cutting-edge multimodal retrieval application that allows users
 - **Sleek UI**: A dark, cinematic 3x3 grid designed for focus and immersion.
 - **Local-First**: Designed to run with local video assets for maximum privacy and performance.
 
-## 🚀 Tech Stack
+## Tech Stack
 
 - **Frontend**: React 18, TypeScript, Vite
 - **Styling**: Tailwind CSS
@@ -27,7 +31,7 @@ WhisperGrid is a cutting-edge multimodal retrieval application that allows users
 - **AI Engine**: `@google/genai` (Gemini Embedding 2)
 - **Backend**: Express (for asset serving and SPA hosting)
 
-## 🏗️ Architecture
+## Architecture
 
 WhisperGrid follows a "Semantic Vector Search" architecture:
 
@@ -48,7 +52,7 @@ const cosineSimilarity = (a: number[], b: number[]) => {
 };
 ```
 
-## 🛠️ Setup & Installation
+## Setup & Installation
 
 ### Prerequisites
 - Node.js 18+
@@ -76,7 +80,7 @@ const cosineSimilarity = (a: number[], b: number[]) => {
     npm run dev
     ```
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Here are some ideas for features you could add:
 - **Dynamic Library**: Allow users to upload their own videos to the grid.
