@@ -54,14 +54,14 @@ function AudioVisualizer({ analyser }: { analyser: AnalyserNode | null }) {
       analyser.getByteFrequencyData(dataArray);
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
+
       const barWidth = (canvas.width / bufferLength) * 2.5;
       let barHeight;
       let x = 0;
 
       for (let i = 0; i < bufferLength; i++) {
         barHeight = (dataArray[i] / 255) * canvas.height;
-        
+
         // Create a nice gradient or solid color
         ctx.fillStyle = `rgba(16, 185, 129, ${0.3 + (dataArray[i] / 255)})`;
         ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
@@ -75,10 +75,10 @@ function AudioVisualizer({ analyser }: { analyser: AnalyserNode | null }) {
   }, [analyser]);
 
   return (
-    <canvas 
-      ref={canvasRef} 
-      width={120} 
-      height={40} 
+    <canvas
+      ref={canvasRef}
+      width={120}
+      height={40}
       className="rounded-lg opacity-80"
     />
   );
@@ -112,7 +112,7 @@ export default function App() {
   const [winningScore, setWinningScore] = useState<number | null>(null);
   const [currentlyEmbeddingId, setCurrentlyEmbeddingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  
+
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const aiRef = useRef<any>(null);
@@ -162,7 +162,7 @@ export default function App() {
       for (let i = 0; i < updatedVideos.length; i++) {
         const video = updatedVideos[i];
         setCurrentlyEmbeddingId(video.id);
-        
+
         try {
           // Fetch local video file directly
           const response = await fetch(video.url);
@@ -170,11 +170,11 @@ export default function App() {
             console.error(`Failed to load ${video.url}: ${response.status}`);
             continue;
           }
-          
+
           const blob = await response.blob();
           const base64 = await fileToDataUrl(blob);
           const data = base64.split(',')[1];
-          
+
           if (!data) continue;
 
           // Gemini Embedding API has a limit (usually ~20MB for inlineData)
@@ -220,14 +220,14 @@ export default function App() {
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      
+
       // Set up Audio Analysis
       const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
       const source = audioContext.createMediaStreamSource(stream);
       const analyserNode = audioContext.createAnalyser();
       analyserNode.fftSize = 64; // Small for a simple visualizer
       source.connect(analyserNode);
-      
+
       audioContextRef.current = audioContext;
       setAnalyser(analyserNode);
 
@@ -243,7 +243,7 @@ export default function App() {
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
         processAudio(audioBlob);
         stream.getTracks().forEach(track => track.stop());
-        
+
         if (audioContextRef.current) {
           audioContextRef.current.close();
           audioContextRef.current = null;
@@ -324,12 +324,12 @@ export default function App() {
 
   // We no longer want a full-screen loader that hides the grid
   // but we still want to show a global state if needed.
-  
+
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans selection:bg-emerald-500/30">
       {/* Header */}
       <header className="max-w-6xl mx-auto pt-12 pb-8 px-6 flex flex-col items-center text-center">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="flex items-center gap-3 mb-4"
@@ -362,27 +362,26 @@ export default function App() {
               <motion.div
                 key={video.id}
                 layout
-                className={`relative aspect-video rounded-2xl overflow-hidden border-2 transition-all duration-500 ${
-                  winnerId === video.id 
-                    ? 'border-emerald-500 shadow-[0_0_30px_rgba(16,185,129,0.3)] scale-[1.02] z-10' 
-                    : winnerId 
-                      ? 'border-zinc-800/50 grayscale-[0.3] opacity-60'
-                      : 'border-zinc-800/50'
-                }`}
+                className={`relative aspect-video rounded-2xl overflow-hidden border-2 transition-all duration-500 ${winnerId === video.id
+                  ? 'border-emerald-500 shadow-[0_0_30px_rgba(16,185,129,0.3)] scale-[1.02] z-10'
+                  : winnerId
+                    ? 'border-zinc-800/50 grayscale-[0.3] opacity-60'
+                    : 'border-zinc-800/50'
+                  }`}
               >
                 <video
-                  src={`/api/proxy-video?url=${encodeURIComponent(video.url)}`}
+                  src={`${video.url}`}
                   autoPlay
                   loop
                   muted
                   playsInline
                   className={`w-full h-full object-cover transition-opacity duration-500 ${!hasEmbedding ? 'opacity-20' : 'opacity-100'}`}
                 />
-                
+
                 {/* Overlay for Loading/Processing */}
                 <AnimatePresence>
                   {(isEmbedding || isMatching || !hasEmbedding) && (
-                    <motion.div 
+                    <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
@@ -411,10 +410,10 @@ export default function App() {
                     {video.label}
                   </span>
                 </div>
-                
+
                 <AnimatePresence>
                   {winnerId === video.id && (
-                    <motion.div 
+                    <motion.div
                       initial={{ opacity: 0, scale: 0.5 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.5 }}
@@ -458,11 +457,10 @@ export default function App() {
           <button
             onClick={isRecording ? stopRecording : startRecording}
             disabled={isProcessing}
-            className={`relative w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-300 ${
-              isRecording 
-                ? 'bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.4)]' 
-                : 'bg-emerald-500 text-white hover:bg-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.4)]'
-            } disabled:opacity-50 disabled:cursor-not-allowed`}
+            className={`relative w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-300 ${isRecording
+              ? 'bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.4)]'
+              : 'bg-emerald-500 text-white hover:bg-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.4)]'
+              } disabled:opacity-50 disabled:cursor-not-allowed`}
           >
             {isProcessing ? (
               <Loader2 className="w-8 h-8 animate-spin" />
@@ -471,7 +469,7 @@ export default function App() {
             ) : (
               <Mic className="w-8 h-8" />
             )}
-            
+
             {isRecording && (
               <span className="absolute -top-1 -right-1 flex h-4 w-4">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
@@ -494,7 +492,9 @@ export default function App() {
         <div className="flex items-center gap-4 text-[10px] uppercase tracking-widest text-zinc-600 pointer-events-auto">
           <span>Videos by <a href="https://www.pexels.com" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-400 transition-colors underline decoration-zinc-800 underline-offset-4">Pexels</a></span>
           <span className="w-1 h-1 rounded-full bg-zinc-800" />
-          <span>Powered by <a href="https://ai.google.dev/gemini-api/docs/models/gemini#embedding" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-400 transition-colors underline decoration-zinc-800 underline-offset-4">Gemini Embeddings 2</a></span>
+          <span>Built by <a href="https://harishkotra.me" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-400 transition-colors underline decoration-zinc-800 underline-offset-4">Harish Kotra</a></span>
+          <span className="w-1 h-1 rounded-full bg-zinc-800" />
+          <span>Powered by <a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-embedding-2/" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-400 transition-colors underline decoration-zinc-800 underline-offset-4">Gemini Embedding 2</a></span>
         </div>
       </div>
     </div>

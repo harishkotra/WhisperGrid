@@ -4,7 +4,7 @@
 
 WhisperGrid is a cutting-edge multimodal retrieval application that allows users to search through a video library using nothing but sound. Powered by the **Gemini Embedding 2** model, it translates audio inputs (speech, humming, or ambient sounds) into semantic vectors and matches them against a pre-embedded video library in real-time.
 
-![WhisperGrid Demo](https://picsum.photos/seed/whispergrid/1200/600)
+
 
 ## ✨ Features
 

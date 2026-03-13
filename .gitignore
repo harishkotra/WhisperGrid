@@ -37,3 +37,9 @@ yarn-error.log*
 # Project Specific
 public/videos/*.mp4
 !public/videos/.gitkeep
+
+BLOG.md
+SOCIAL.md
+package-lock.json
+
+.env
